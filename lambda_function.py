@@ -19,7 +19,7 @@ DEVELOPER_KEY=environ['DEVELOPER_KEY']
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-from strings import *
+from strings import locales, strings_en, strings_fr, strings_it, strings_de, strings_es, strings_ja
 strings = strings_en
 
 # --------------- Helpers that build all of the responses ----------------------
