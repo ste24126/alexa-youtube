@@ -480,13 +480,15 @@ def playlist_search(query, sr, do_shuffle='0'):
         maxResults=10,
         type='playlist'
         ).execute()
-    for playlist in range(sr, len(search_response.get('items'))):
-        if 'playlistId' in search_response.get('items')[playlist]['id']:
-            playlist_id = search_response.get('items')[playlist]['id']['playlistId']
+
+    items = search_response.get('items', [])
+    for playlist in range(sr, len(items)):
+        if 'playlistId' in items[playlist]['id']:
+            playlist_id = items[playlist]['id']['playlistId']
             break
     sr = playlist
     logger.info('Playlist info: https://www.youtube.com/playlist?list='+playlist_id)
-    playlist_title = search_response.get('items')[sr]['snippet']['title']
+    playlist_title = items[sr]['snippet']['title']
     videos = []
     data={'nextPageToken':''}
     while 'nextPageToken' in data and len(videos) < 200:
