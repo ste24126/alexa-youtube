@@ -920,7 +920,7 @@ def get_next_url_and_token(current_token, skip):
         for i in range(int(next_playing), number_of_videos-1):
             playlist['v'+str(i)] = playlist['v'+str(i+1)]
         del(playlist['v'+str(number_of_videos-1)])
-        number_of_videos = sum('v' in i for i in playlist.keys())
+        number_of_videos -= 1
         if number_of_videos == 0:
             return None, convert_dict_to_token(playlist), None
     while next_url is None:
