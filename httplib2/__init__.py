@@ -1458,9 +1458,7 @@ class Http(object):
                     # Fix-up relative redirects (which violate an RFC 2616 MUST)
                     if 'location' in response:
                         location = response['location']
-                        (scheme, authority, path, query, fragment) = parse_uri(location)
-                        if authority == None:
-                            response['location'] = urlparse.urljoin(absolute_uri, location)
+                        response['location'] = urlparse.urljoin(absolute_uri, location)
                     if response.status == 301 and method in ["GET", "HEAD"]:
                         response['-x-permanent-redirect-url'] = response['location']
                         if 'content-location' not in response:
