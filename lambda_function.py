@@ -206,15 +206,16 @@ def build_video_response(title, output, url):
 
 def lambda_handler(event, context):
     global strings
-    if event['request']['locale'][0:2] == 'fr':
+    locale = event['request']['locale'][0:2]
+    if locale == 'fr':
         strings = strings_fr
-    elif event['request']['locale'][0:2] == 'it':
+    elif locale == 'it':
         strings = strings_it
-    elif event['request']['locale'][0:2] == 'de':
+    elif locale == 'de':
         strings = strings_de
-    elif event['request']['locale'][0:2] == 'es':
+    elif locale == 'es':
         strings = strings_es
-    elif event['request']['locale'][0:2] == 'ja':
+    elif locale == 'ja':
         strings = strings_ja
     else:
         strings = strings_en
