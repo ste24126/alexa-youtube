@@ -236,11 +236,12 @@ def lambda_handler(event, context):
         
 # --------------- Events ------------------
 
+SEARCH_INTENTS = {"SearchIntent", "PlayOneIntent", "PlaylistIntent", "SearchMyPlaylistsIntent", "ShuffleMyPlaylistsIntent", "ChannelIntent", "ShuffleIntent", "ShufflePlaylistIntent", "ShuffleChannelIntent"}
+
 def on_intent(event):
     intent_name = event['request']['intent']['name']
     # Dispatch to your skill's intent handlers
-    search_intents = ["SearchIntent", "PlayOneIntent", "PlaylistIntent", "SearchMyPlaylistsIntent", "ShuffleMyPlaylistsIntent", "ChannelIntent", "ShuffleIntent", "ShufflePlaylistIntent", "ShuffleChannelIntent"]
-    if intent_name in search_intents:
+    if intent_name in SEARCH_INTENTS:
         return search(event)
     elif intent_name == 'NextPlaylistIntent':
         return next_playlist(event)
