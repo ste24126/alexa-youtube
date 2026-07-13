@@ -121,12 +121,14 @@ class Playlist(object):
         download_path=None,
         prefix_number=True,
         reverse_numbering=False,
+        resolution=None,
+        custom_filter_functions=None,
+        progressive=True,
+        subtype='mp4',
     ):
         """Download all the videos in the the playlist. Initially, download
         resolution is 720p (or highest available), later more option
         should be added to download resolution of choice
-
-        TODO(nficano): Add option to download resolution of user's choice
 
         :param download_path:
             (optional) Output path for the playlist If one is not
@@ -141,6 +143,18 @@ class Playlist(object):
             (optional) Lets you number playlists in reverse, since some
             playlists are ordered newest -> oldests.
         :type reverse_numbering: bool
+        :param resolution:
+            (optional) Video resolution i.e. "720p", "1080p", "1440p", "2160p".
+        :type resolution: str or None
+        :param custom_filter_functions:
+            (optional) Filters criteria.
+        :type custom_filter_functions: list or None
+        :param progressive:
+            (optional) Filters for progressive streams.
+        :type progressive: bool
+        :param subtype:
+            (optional) Video codec i.e. "mp4", "webm".
+        :type subtype: str
         """
 
         self.populate_video_urls()
@@ -159,10 +173,11 @@ class Playlist(object):
                 else:
                     logger.debug('Exception suppressed')
             else:
-                # TODO: this should not be hardcoded to a single user's
-                # preference
                 dl_stream = yt.streams.filter(
-                    progressive=True, subtype='mp4',
+                    resolution=resolution,
+                    custom_filter_functions=custom_filter_functions,
+                    progressive=progressive,
+                    subtype=subtype,
                 ).order_by('resolution').desc().first()
 
                 logger.debug('download path: %s', download_path)
