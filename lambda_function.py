@@ -894,8 +894,7 @@ def convert_token_to_dict(token):
     pi=token.split('&')
     playlist={}
     for i in pi:
-        key=i.split('=')[0]
-        val=i.split('=')[1]
+        key, val = i.split('=', 1)
         playlist[key]=val
     return playlist
     
