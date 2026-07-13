@@ -83,14 +83,11 @@ if sys.version_info[0:2] < (3, 2) or implementation != 'CPython':
 
     def bitLength(number):
         # bits in unsigned number
-        hexValue = hex(abs(number))
-        bits = len(hexValue) - 2
-        if hexValue.endswith('L'):
-            bits -= 1
+        hexValue = hex(abs(number))[2:].rstrip('L').lstrip('0')
+        bits = len(hexValue)
         if bits & 1:
             bits += 1
         bits *= 4
-        # TODO: strip lhs zeros
         return bits
 
 else:
