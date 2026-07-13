@@ -2,6 +2,7 @@
 from __future__ import print_function
 from os import environ
 from googleapiclient.discovery import build
+from concurrent.futures import ThreadPoolExecutor
 from googleapiclient.errors import HttpError
 from pytube import YouTube
 import logging
@@ -405,9 +406,18 @@ def trim_list(event, listId):
     items = get_list(event, listId)
     if items is not None:
         maxLength = 90
-        for item in items[maxLength:]:
-            itemId = item['id']
-            delete_list_item(event, listId, itemId)
+        headers = get_headers(event)
+        if headers:
+            with requests.Session() as session:
+                session.headers.update(headers)
+
+                def delete_item(item):
+                    itemId = item['id']
+                    url = event['context']['System']['apiEndpoint'] + '/v2/householdlists/' + listId + '/items/' + itemId
+                    session.delete(url)
+
+                with ThreadPoolExecutor(max_workers=10) as executor:
+                    list(executor.map(delete_item, items[maxLength:]))
 
 def delete_list_item(event, listId, itemId):
     headers = get_headers(event)
