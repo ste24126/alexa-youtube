@@ -722,10 +722,6 @@ def play_more_like_this(event):
     return build_response(build_cardless_audio_speechlet_response(speech_output, should_end_session, next_url, next_token))
 
 def skip_action(event, skip):
-    logger.info("event:")
-    logger.info(event)
-    logger.info("context:")
-    logger.info(event['context'])
     should_end_session = True
     current_token = event['context']['AudioPlayer']['token']
     next_url, next_token, title = get_next_url_and_token(current_token, skip)
@@ -951,7 +947,6 @@ def stopped(event):
 
 def started(event):
     logger.info("Started")
-    logger.info(event)
     current_token = event['context']['AudioPlayer']['token']
     playlist = convert_token_to_dict(current_token)
     now_playing = playlist['p']
@@ -965,9 +960,6 @@ def finished(event):
 
 def failed(event):
     logger.info("Playback failed")
-    logger.info(event)
-    if 'error' in event['request']:
-        logger.info(event['request']['error'])
     should_end_session = True
     playBehavior = 'REPLACE_ALL'
     current_token = event['request']['token']
